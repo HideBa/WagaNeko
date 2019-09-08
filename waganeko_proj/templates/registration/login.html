@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "subbase.html" %}
 {% load bootstrap4 %}
 {% load staticfiles %}
 
@@ -10,11 +10,12 @@
             window.location.href = '/';
         </script>
     {% else %}
+    <div class="container pt-2">
         <h1>ログイン</h1>
         {% if next %}
             <p>ログインしてください。入会は<a href="/accounts/register">こちら</a></p>
         {% endif %}
-        
+
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             {% bootstrap_form form layout='horizontal' %}
@@ -25,5 +26,6 @@
                 </div>
             </div>
         </form>
+    </div>
     {% endif %}
 {% endblock content %}

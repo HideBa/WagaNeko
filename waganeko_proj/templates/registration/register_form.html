@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "subbase.html" %}
 {% load bootstrap4 %}
 {% load staticfiles %}
 {% block title %}会員登録{% endblock title %}
@@ -9,6 +9,7 @@
     window.location.href = '/';
 </script>
 {% else %}
+<div class="container pt-5">
 <h1>会員登録</h1>
 <form method="post" action="{% url 'register' %}">
     {% csrf_token %}
@@ -19,6 +20,7 @@
         </div>
     </div>
 </form>
+</div>
 {% endif %}
 
 {% endblock content %}

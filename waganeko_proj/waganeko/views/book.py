@@ -3,10 +3,11 @@ from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required #追加！
 from django.contrib import messages
 from django.db.models import Q
+# from waganeko.forms import NewExplanationForm
 
 
 from django.core.paginator import Paginator
-from waganeko.models import Book, ScoreLog
+from waganeko.models import Book, ScoreLog, Explanation
 
 import random
 
@@ -92,6 +93,41 @@ def detail_view(request, book_id):
 
     # return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'current_score':current_score })
     return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page})
+
+# def explanation_posts(request):
+#     explanation_posts_list = Explanation.objects.values_list('post_text', flat=True)
+#     id_list = Explanation.objects.values_list('id', flat=True)
+#     tweets = zip(id_list, explanation_posts_list)
+#     tweets = list(tweets)
+#     # explanation_posts = Explanation.objects.all()
+#
+#     f = {
+#         'tweets': tweets,
+#     }
+#     return render(request, 'waganeko/explanation_see.html', f)
+#     # return render(request, 'waganeko/explanation_see.html', {'explanation_posts':explanation_posts})
+#
+# def new_explanation_post(request):
+#     new_explanation = NewExplanationForm(request.POST or None)
+#     if new_explanation.is_valid():
+#         new_explanation = new_explanation.cleaned_data
+#         new_explanation = new_explanation['post_text']
+#         explanation = Explanation(post_text=new_explanation)
+#         explanation.save()
+#         return redirect('waganeko:explanation_posts')
+#     else:
+#         new_explanation = new_explanation.as_table()
+#         f = {
+#             'new_explanation': new_explanation,
+#         }
+#         return render(request, 'waganeko/explanation.html', f)
+#
+# def delete(request, explanation_post_id):
+#     Explanation.objects.filter(id=explanation_post_id).delete()
+#     return redirect('waganeko:explanation_posts')
+
+
+
 
 
 # #追加！

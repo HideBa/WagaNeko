@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "subbase.html" %}
 {% load mathfilters %}
 
 {% block title %}マイページ{% endblock title %}
@@ -12,7 +12,7 @@
     <p>性別: {{ user.profile.get_gender_display }}</p>
     <p></p>
     <p>ユーザー名またはパスワードの編集は <a href="/accounts">こちら</a>(未実装)</p>
-<!-- 
+<!--
     <hr>
     <h5>物件評価履歴</h5>
 

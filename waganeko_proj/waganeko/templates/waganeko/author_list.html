@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "subbase.html" %}
 {% load mathfilters %}
 
 {% block title %}著者の一覧{% endblock title %}
 
 {% block content %}
-<h4 class="mt-4 border-bottom">本の一覧</h4>
+<h4 class="mt-4 border-bottom">著者の一覧</h4>
 
 <!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
   <form action="{% url 'waganeko:author_list' %}" method="post" name="book_id_list">
@@ -39,7 +39,7 @@
                     {{ author.id }}
                 </a>
             </th>
-            <td>{{ author.last_name }} {{ author.first_name | default:"" }}</td>            
+            <td>{{ author.last_name }} {{ author.first_name | default:"" }}</td>
             <td>{{ author.last_name_hiragana }}{{ author.first_name_hiragana | default:"" }}</td>
             <td>{{ author.born_year }}</td>
             <td>{{ author.pass_away_year }}</td>

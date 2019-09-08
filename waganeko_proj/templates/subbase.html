@@ -51,7 +51,7 @@
                     <!-- Navigation -->
                     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
                       <div class="container">
-                        <a class="navbar-brand js-scroll-trigger waganeko" href="#page-top">Waganeko</a>
+                        <a class="navbar-brand js-scroll-trigger waganeko" href="/">Waganeko</a>
                         <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-warning text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                           Menu
                           <i class="fas fa-bars"></i>
@@ -60,38 +60,38 @@
                         <div class="collapse navbar-collapse" id="navbarResponsive">
                           <ul class="navbar-nav ml-auto">
                             <li class="nav-item mx-0 mx-lg-1">
-                              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger fas fa-book-open" href="#portfolio">Books</a>
+                              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger fas fa-paw" href="/">Top</a>
                             </li>
-                            <li class="nav-item mx-0 mx-lg-1">
-                              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger fas fa-users" href="#about">Authors</a>
-                            </li>
+                            <!-- <li class="nav-item mx-0 mx-lg-1">
+                              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Authors</a>
+                            </li> -->
                             <li class="nav-item mx-0 mx-lg-1">
                                   <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger fas fa-user-shield" href="/waganeko/mypage">MyPage</a>
                             </li>
                              <li class="nav-item mx-0 mx-lg-1">
                                   <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger fas fa-sign-out-alt" href="/accounts/logout">LogOut</a>
                             </li>
-                            <li class="nav-item mx-0 mx-lg-1">
-                              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger fas fa-address-book" href="#contact">Contact</a>
-                            </li>
+                            <!-- <li class="nav-item mx-0 mx-lg-1">
+                              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
+                            </li> -->
                             {% else %}
                             <div class="collapse navbar-collapse" id="navbarResponsive">
                                   <ul class="navbar-nav ml-auto">
                                     <li class="nav-item mx-0 mx-lg-1">
-                                      <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Books</a>
+                                      <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/">Top</a>
                                     </li>
-                                    <li class="nav-item mx-0 mx-lg-1">
+                                    <!--<li class="nav-item mx-0 mx-lg-1">
                                       <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Authors</a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item mx-0 mx-lg-1">
                                           <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/accounts/register">SignUp</a>
                                     </li>
                                     <li class="nav-item mx-0 mx-lg-1">
                                           <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/accounts/login">Login</a>
                                     </li>
-                                    <li class="nav-item mx-0 mx-lg-1">
+                                    <!-- <li class="nav-item mx-0 mx-lg-1">
                                       <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
-                                    </li>
+                                    </li> -->
                             <!-- <li class="nav-item mx-0 mx-lg-1">
                               <a class="fas fa-book-open fa-fw nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Books</a>
                               </li>
@@ -105,9 +105,9 @@
                       </div>
                     </nav>
 
-
+    <div class="bg-warning mt-5 pt-5">
     <!-- Page Content -->
-    <div class="container">
+    <div class="container pb-1">
         {% if messages %}
         {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
@@ -122,6 +122,7 @@
         {% endblock %}
         {% block extra_js %}{% endblock %}
 
+    </div>
     </div>
     <!-- /.container -->
 
