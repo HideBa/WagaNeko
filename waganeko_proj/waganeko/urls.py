@@ -11,7 +11,8 @@ urlpatterns = [
     path('book/search', book.list_search_view, name='book_search_list'),
     path('author/', author.list_view, name='author_list'),
     path('author/<slug:author_id>', author.detail_view, name='author_detail'),
-    # path('newpost/', book.new_explanation_post, name='new_explanation_post'),
-    # path('posts/', book.explanation_posts, name='explanation_posts'),
-    # path('delete/<slug:explanation_post_id>', book.delete, name='delete'),
+    path('newpost/', book.new_explanation_post, name='new_explanation_post'),
+    path('posts/', book.explanation_posts, name='explanation_posts'),
+    path('form/', book.form_view, name='post_form'),
+    path('delete/<slug:explanation_post_id>', book.delete, name='delete'),
 ]

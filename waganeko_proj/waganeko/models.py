@@ -62,6 +62,13 @@ class Author(models.Model):
     detail = models.TextField('著者について詳細', null=True)
     author_img = models.ImageField(upload_to='image/', null=True)
 
+    def __str__(self):
+        if self.first_name:
+            return self.id + ' ' + self.last_name + ' ' + self.first_name
+        else:
+            return self.id + ' ' + self.last_name
+        # return self.id + ' ' + self.last_name + ' ' + self.first_name
+
 class Publisher(models.Model):
     class Meta:
         verbose_name = '出版社'
@@ -91,6 +98,9 @@ class Book(models.Model):
     book_img = models.ImageField(upload_to='image/', null=True)
     view_nums = models.PositiveIntegerField('閲覧数', default=0)
 
+    def __str__(self):
+        return self.book_name + ' ' + self.author.id
+
 class Summary(models.Model):
     class Meta:
         verbose_name = 'あらすじ'
@@ -112,12 +122,16 @@ class Explanation(models.Model):
 
     id = models.CharField(max_length=6, primary_key=True)
     #E00001から
-    post_user = models.ForeignKey(Profile, verbose_name='投稿者', on_delete=models.CASCADE)
-    post_text = models.TextField('投稿内容')
-    iine_nums = models.PositiveIntegerField('いいね数')
+    post_user = models.ForeignKey(Profile, verbose_name='投稿者', on_delete=models.CASCADE, null=True)
+    # post_text = models.CharField('投稿内容', max_length=150)
+    tweet = models.CharField('ツイート', max_length=100, default="")
+    iine_nums = models.PositiveIntegerField('いいね数', null=True)
     category = models.PositiveIntegerField('カテゴリ', choices=book_category_list, null=True)
-    posted_time = models.DateTimeField(auto_now_add=True)
-    post_for_book = models.ForeignKey(Book, verbose_name='投稿先の本', on_delete=models.CASCADE)
+    posted_time = models.DateTimeField(auto_now_add=True, null=True)
+    post_for_book = models.ForeignKey(Book, verbose_name='投稿先の本', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.post_user.id + ' ' + self.tweet + self.id
 
 class ScoreLog(models.Model):
     class Meta:
@@ -127,6 +141,3 @@ class ScoreLog(models.Model):
     profile = models.ForeignKey(Profile, verbose_name='ユーザー情報', on_delete=models.CASCADE)
     score = models.IntegerField('評価')                         # 1~5
     timestamp = models.DateTimeField('日時', auto_now_add=True)
-
-
-    

@@ -3,7 +3,8 @@ from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required #追加！
 from django.contrib import messages
 from django.db.models import Q
-# from waganeko.forms import NewExplanationForm
+from django.core.exceptions import ObjectDoesNotExist
+from waganeko.new_explanation_form import NewExplanationForm
 
 
 from django.core.paginator import Paginator
@@ -11,6 +12,8 @@ from waganeko.models import Book, ScoreLog, Explanation
 
 import random
 
+form_invalid_message = '不正な入力が送信されました'
+submit_successful_message = 'ツイートされました。！'
 message_rate_created = '評価が登録されました！'
 message_rate_updated = '評価が更新されました！'
 
@@ -94,19 +97,57 @@ def detail_view(request, book_id):
     # return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'current_score':current_score })
     return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page})
 
-# def explanation_posts(request):
-#     explanation_posts_list = Explanation.objects.values_list('post_text', flat=True)
-#     id_list = Explanation.objects.values_list('id', flat=True)
-#     tweets = zip(id_list, explanation_posts_list)
-#     tweets = list(tweets)
-#     # explanation_posts = Explanation.objects.all()
-#
-#     f = {
-#         'tweets': tweets,
-#     }
-#     return render(request, 'waganeko/explanation_see.html', f)
-#     # return render(request, 'waganeko/explanation_see.html', {'explanation_posts':explanation_posts})
-#
+def form_view(request):
+    form = NewExplanationForm()
+    return render(request, 'waganeko/explanation_new_post.html', {'form':form})
+
+def new_explanation_post(request):
+    form = NewExplanationForm(request.POST)
+    print('aaaaaaaaaaaaa')
+    if not form.is_valid():
+        print("============================================")
+        print("form invalid")
+        print("============================================")
+        messages.error(request, form_invalid_message)
+        return redirect('waganeko:post_form')
+
+    print("============================================")
+    print("form valid")
+    print("============================================")
+
+    new_post = form.save(commit=False)
+    print('#######################')
+    print(request.user.profile.id) #check
+    print(type(request.user.profile)) #check
+    try:
+        max_id = Explanation.objects.latest('id').id
+    except ObjectDoesNotExist:
+        max_id = 'E000000'
+
+    explanation_id = 'E'+(str(int(max_id[1:])+1).zfill(5))
+    new_post.id = explanation_id
+    print(new_post.id) #check
+    new_post.post_user = request.user.profile.id
+    new_post.tweet = request.POST.get('tweet')
+    new_post.save()
+    print("----------")
+    print("new post was saved")
+    print("--------------------")
+    messages.success(request, submit_successful_message)
+    return redirect('waganeko:explanation_posts')
+
+# ーーーーーー以下過去のモノーーーーーー
+def explanation_posts(request):
+    id_list = Explanation.objects.values_list('id', flat=True)
+    explanation_posts_list = Explanation.objects.values_list('tweet', flat=True)
+    explanations = zip(id_list, explanation_posts_list)
+    explanations = list(explanations)
+
+    f = {
+        'explanations': explanations
+    }
+    return render(request, 'waganeko/explanation.html', f)
+
 # def new_explanation_post(request):
 #     new_explanation = NewExplanationForm(request.POST or None)
 #     if new_explanation.is_valid():
@@ -120,11 +161,15 @@ def detail_view(request, book_id):
 #         f = {
 #             'new_explanation': new_explanation,
 #         }
-#         return render(request, 'waganeko/explanation.html', f)
-#
-# def delete(request, explanation_post_id):
-#     Explanation.objects.filter(id=explanation_post_id).delete()
-#     return redirect('waganeko:explanation_posts')
+#         return render(request, 'waganeko/explanation_new_post.html', f)
+# #
+def delete(request, explanation_post_id):
+    Explanation.objects.filter(id=explanation_post_id).delete()
+    return redirect('waganeko:explanation_posts')
+
+
+
+
 
 
 

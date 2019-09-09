@@ -1,0 +1,16 @@
+{% extends "subbase.html" %}
+{% load mathfilters %}
+{% load bootstrap4 %}
+
+{% block title %}投稿{% endblock title %}
+
+    {% block content %}
+    <h1>解説</h1>
+        {% for i, t in explanations %}
+           <ul>
+               <li>
+                   {{t}} <a href="{% url 'waganeko:delete' explanation_post_id=i %}">削除</a>
+               </li>
+           </ul>
+        {% endfor %}
+    {% endblock content %}
