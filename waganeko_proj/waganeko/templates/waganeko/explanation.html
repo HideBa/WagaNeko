@@ -9,7 +9,7 @@
         {% for i, t in explanations %}
            <ul>
                <li>
-                   {{t}} <a href="{% url 'waganeko:delete' explanation_post_id=i %}">削除</a>
+                   {{t}} <a href="{% url 'waganeko:delete' explanation_post_id=i %}">削除</a><a href="{% url  'waganeko:update'  explanation_post_id=i %}" >編集</a>
                </li>
            </ul>
         {% endfor %}

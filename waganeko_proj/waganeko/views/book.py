@@ -87,6 +87,8 @@ def detail_view(request, book_id):
         page = int(request.GET.get('from_page'))
     except:
         page = 1
+    # self.form_view(request, book_id)
+
 
     # try:
     #     log = ScoreLog.objects.get(profile_id=request.user.profile.id, booook_id=book_id)
@@ -96,9 +98,11 @@ def detail_view(request, book_id):
 
     # return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'current_score':current_score })
     return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page})
+    # return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'form':form})
 
 def form_view(request):
     form = NewExplanationForm()
+    # return form
     return render(request, 'waganeko/explanation_new_post.html', {'form':form})
 
 def new_explanation_post(request):
@@ -127,7 +131,7 @@ def new_explanation_post(request):
     explanation_id = 'E'+(str(int(max_id[1:])+1).zfill(5))
     new_post.id = explanation_id
     print(new_post.id) #check
-    new_post.post_user = request.user.profile.id
+    new_post.post_user = request.user.profile
     new_post.tweet = request.POST.get('tweet')
     new_post.save()
     print("----------")
@@ -167,6 +171,20 @@ def delete(request, explanation_post_id):
     Explanation.objects.filter(id=explanation_post_id).delete()
     return redirect('waganeko:explanation_posts')
 
+def update(request, explanation_post_id):
+    new_explanation = NewExplanationForm(request.POST or None)
+    if new_explanation.is_valid():
+        new_explanation = new_explanation.cleaned_data['tweet']
+        old_explanation = Explanation.objects.get(id=explanation_post_id)
+        old_explanation.tweet = new_explanation
+        old_explanation.save()
+        return redirect('waganeko:explanation_posts')
+    else:
+        new_explanation = new_explanation.as_table()
+        f = {
+        'new_explanation': new_explanation,
+        }
+        return render(request, 'waganeko/update.html', f)
 
 
 
