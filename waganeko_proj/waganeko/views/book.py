@@ -152,39 +152,31 @@ def explanation_posts(request):
     }
     return render(request, 'waganeko/explanation.html', f)
 
-# def new_explanation_post(request):
-#     new_explanation = NewExplanationForm(request.POST or None)
-#     if new_explanation.is_valid():
-#         new_explanation = new_explanation.cleaned_data
-#         new_explanation = new_explanation['post_text']
-#         explanation = Explanation(post_text=new_explanation)
-#         explanation.save()
-#         return redirect('waganeko:explanation_posts')
-#     else:
-#         new_explanation = new_explanation.as_table()
-#         f = {
-#             'new_explanation': new_explanation,
-#         }
-#         return render(request, 'waganeko/explanation_new_post.html', f)
-# #
+
 def delete(request, explanation_post_id):
     Explanation.objects.filter(id=explanation_post_id).delete()
     return redirect('waganeko:explanation_posts')
 
-def update(request, explanation_post_id):
-    new_explanation = NewExplanationForm(request.POST or None)
-    if new_explanation.is_valid():
-        new_explanation = new_explanation.cleaned_data['tweet']
-        old_explanation = Explanation.objects.get(id=explanation_post_id)
-        old_explanation.tweet = new_explanation
-        old_explanation.save()
-        return redirect('waganeko:explanation_posts')
-    else:
-        new_explanation = new_explanation.as_table()
-        f = {
-        'new_explanation': new_explanation,
-        }
-        return render(request, 'waganeko/update.html', f)
+# def tweet_update(request, explanation_post_id):
+#     var = request.POST
+#     sort_str = var.get('sort')
+#
+#     new_explanation = NewExplanationForm(request.POST or None)
+#     print(explanation_post_id)
+#     print('-------------------------------------')
+#     print(new_explanation)
+#     if new_explanation.is_valid():
+#         new_explanation = new_explanation.cleaned_data['tweet']
+#         old_explanation = Explanation.objects.get(id=explanation_post_id)
+#         old_explanation.tweet = new_explanation
+#         old_explanation.save()
+#         return redirect('waganeko:explanation_posts')
+#     else:
+#         new_explanation = new_explanation.as_table()
+#         f = {
+#         'new_explanation': new_explanation,
+#         }
+#         return render(request, 'waganeko/update.html', f)
 
 
 

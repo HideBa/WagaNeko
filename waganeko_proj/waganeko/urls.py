@@ -15,5 +15,5 @@ urlpatterns = [
     path('posts/', book.explanation_posts, name='explanation_posts'),
     path('form/', book.form_view, name='post_form'),
     path('delete/<slug:explanation_post_id>/', book.delete, name='delete'),
-    path('update/<slug:explanation_post_id>/', book.update, name='update'),
+    # path('update/<slug:explanation_post_id>/', book.tweet_update, name='update'),
 ]

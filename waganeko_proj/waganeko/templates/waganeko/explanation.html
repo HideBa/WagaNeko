@@ -6,10 +6,10 @@
 
     {% block content %}
     <h1>解説</h1>
-        {% for i, t in explanations %}
+        {% for i, f in explanations %}
            <ul>
                <li>
-                   {{t}} <a href="{% url 'waganeko:delete' explanation_post_id=i %}">削除</a><a href="{% url  'waganeko:update'  explanation_post_id=i %}" >編集</a>
+                   {{f}} <a href="{% url 'waganeko:delete' explanation_post_id=i %}">削除</a>
                </li>
            </ul>
         {% endfor %}
