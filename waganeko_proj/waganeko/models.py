@@ -30,6 +30,7 @@ class Profile(models.Model):
     gender = models.IntegerField('性別',choices=GENDER_LIST)
     prefer_book_category = models.IntegerField('好きな本のカテゴリ', choices=book_category_list, null=True)
     icon_img = models.ImageField(upload_to='image/', null=True)
+    belong = models.CharField('所属', max_length=30, null=True)
     # follower = models.ManyToManyField(Followed, blank=True)
 
 

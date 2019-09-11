@@ -11,9 +11,10 @@ class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
     # household_num = forms.IntegerField(required=True)
     gender = forms.ChoiceField(choices=GENDER_LIST, required=True)
+    belong = forms.CharField()
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2','age','gender']
+        fields = ['username', 'email', 'password1', 'password2','age','gender','belong']
         labels = {
             'username': 'ユーザー名',
             'email':'Email Adress',
@@ -21,12 +22,13 @@ class RegisterForm(UserCreationForm):
             'password2': 'パスワード確認',
             'age': '年齢',
             'gender': '性別',
+            'belong': '所属',
         }
 
     def save(self, commit=True):
         if not commit:
             raise NotImplementedError('Cannot create User and Profile without database save')
-        
+
         user = super().save()
 
         try:
@@ -39,9 +41,10 @@ class RegisterForm(UserCreationForm):
         age = self.cleaned_data['age']
         gender = self.cleaned_data['gender']
         email = self.cleaned_data['email']
+        belong = self.cleaned_data['belong']
         # household_num = self.cleaned_data['household_num']
 
-        profile = Profile(id=prof_id,age=age,gender=gender, user_id=user.id, email = email)
+        profile = Profile(id=prof_id,age=age,gender=gender, user_id=user.id, email = email, belong=belong)
         profile.save()
 
         return user

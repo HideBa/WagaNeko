@@ -10,7 +10,7 @@
     <p><b>{{ user.username }}</b> さん</p>
     <p>年齢: {{ user.profile.age }}歳</p>
     <p>性別: {{ user.profile.get_gender_display }}</p>
-    <p></p>
+    <p>所属: {{ user.belong }}</p>
     <p>ユーザー名またはパスワードの編集は <a href="/accounts">こちら</a>(未実装)</p>
 <!--
     <hr>
