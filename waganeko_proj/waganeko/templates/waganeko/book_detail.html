@@ -52,7 +52,7 @@
 {% for i in explanations %}
    <ul>
      <li>UserName：{{i.post_user.user.username}}</li>
-     <li> {{i.post_user.belong}}</li>
+     <li> {{i.post_user.belong | default:"" }}</li>
        <li>
            解説：{{i.tweet}} <a href="{% url 'waganeko:delete' explanation_post_id=i.id book_id=book.id%}">削除</a>
        </li>
