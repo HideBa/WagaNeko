@@ -126,13 +126,32 @@ class Explanation(models.Model):
     post_user = models.ForeignKey(Profile, verbose_name='投稿者', on_delete=models.CASCADE, null=True)
     # post_text = models.CharField('投稿内容', max_length=150)
     tweet = models.CharField('ツイート', max_length=100, default="")
-    iine_nums = models.PositiveIntegerField('いいね数', null=True)
+    iine_nums = models.PositiveIntegerField('いいね数', default=0)
+    igiari_nums = models.PositiveIntegerField('異議あり数', default=0)
     category = models.PositiveIntegerField('カテゴリ', choices=book_category_list, null=True)
     posted_time = models.DateTimeField(auto_now_add=True, null=True)
     post_for_book = models.ForeignKey(Book, verbose_name='投稿先の本', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.post_user.id + ' ' + self.tweet + self.id
+
+class Like(models.Model):
+    class Meta:
+        verbose_name = 'なるほど～'
+        verbose_name_plural = 'なるほど～'
+
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='like_user')
+    explanation = models.ForeignKey(Explanation, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+class Dislike(models.Model):
+    class Meta:
+        verbose_name = '異議あり'
+        verbose_name_plural = '異議あり'
+
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='dislike_user')
+    explanation = models.ForeignKey(Explanation, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
 
 class ScoreLog(models.Model):
     class Meta:

@@ -8,7 +8,7 @@ from waganeko.new_explanation_form import NewExplanationForm
 
 
 from django.core.paginator import Paginator
-from waganeko.models import Book, ScoreLog, Explanation
+from waganeko.models import Book, ScoreLog, Explanation, Like, Dislike
 
 import random
 
@@ -116,6 +116,20 @@ def detail_view(request, book_id):
     return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'explanations':explanations})
     # return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'form':form})
 
+def detail_view2(request, book_id, explanation_id):
+    book = get_object_or_404(Book, id=book_id)
+    book.view_nums += 1
+    book.save()
+    try:
+        page = int(request.GET.get('from_page'))
+    except:
+        page = 1
+    # explanation = get_object_or_404(Explanation, )
+    explanations = Explanation.objects.filter(post_for_book__id=book_id).order_by('posted_time')
+    print('------------')
+    return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'explanations':explanations})
+
+@login_required
 def form_view(request, book_id):
     form = NewExplanationForm()
     print(form)
@@ -124,10 +138,9 @@ def form_view(request, book_id):
     # return form
     return render(request, 'waganeko/explanation_new_post.html', {'form':form, 'book_id':book_id})
 
-
+@login_required
 def new_explanation_post(request, book_id):
     form = NewExplanationForm(request.POST)
-    print('aaaaaaaaaaaaa')
     if not form.is_valid():
         print("============================================")
         print("form invalid")
@@ -140,7 +153,6 @@ def new_explanation_post(request, book_id):
     print("============================================")
 
     new_post = form.save(commit=False)
-    print('#######################')
     print(request.user.profile.id) #check
     print(type(request.user.profile)) #check
     try:
@@ -155,17 +167,66 @@ def new_explanation_post(request, book_id):
     new_post.post_for_book = Book.objects.get(id=book_id)
     new_post.tweet = request.POST.get('tweet')
     new_post.save()
-    print("----------")
     print("new post was saved")
-    print("--------------------")
     messages.success(request, submit_successful_message)
     return redirect('waganeko:book_detail', book_id = book_id)
 
 
-
+@login_required
 def delete(request, explanation_post_id, book_id):
     Explanation.objects.filter(id=explanation_post_id).delete()
+    print('delete=========')
     return redirect('waganeko:book_detail', book_id = book_id)
+
+@login_required
+def like(request, explanation_post_id, book_id):
+    explanation = Explanation.objects.get(id=explanation_post_id)
+    is_like = Like.objects.filter(user=request.user.profile).filter(explanation=explanation).count()
+ # unlike
+    if is_like > 0:
+        liking = Like.objects.get(explanation__id=explanation_post_id, user=request.user.profile)
+        liking.delete()
+        explanation.iine_nums -= 1
+        explanation.save()
+        messages.warning(request, 'なるほど～を取り消しました')
+        return redirect('waganeko:book_detail2', book_id, explanation_post_id)
+    # like
+    print(explanation.iine_nums)
+    print(type(explanation.iine_nums))
+    explanation.iine_nums += 1
+    explanation.save()
+    like = Like()
+    like.user = request.user.profile
+    like.explanation = explanation
+    like.save()
+    messages.success(request, 'なるほど～しました')
+    print('like==============')
+    return redirect('waganeko:book_detail2', book_id, explanation_post_id)
+
+@login_required
+def dislike(request, explanation_post_id, book_id):
+    explanation = Explanation.objects.get(id=explanation_post_id)
+    is_dislike = Dislike.objects.filter(user=request.user.profile).filter(explanation=explanation).count()
+ # unlike
+    if is_dislike > 0:
+        disliking = Dislike.objects.get(explanation__id=explanation_post_id, user=request.user.profile)
+        disliking.delete()
+        explanation.igiari_nums -= 1
+        explanation.save()
+        messages.warning(request, '異議ありを取り消しました')
+        return redirect('waganeko:book_detail2', book_id, explanation_post_id)
+    # like
+    explanation.igiari_nums += 1
+    explanation.save()
+    dislike = Dislike()
+    dislike.user = request.user.profile
+    dislike.explanation = explanation
+    dislike.save()
+    print('異議あり:' + str(explanation.igiari_nums))
+    messages.success(request, '異議あり！しました')
+    print('dislike===============')
+    return redirect('waganeko:book_detail2', book_id, explanation_post_id)
+
 
 # def tweet_update(request, explanation_post_id):
 #     var = request.POST
