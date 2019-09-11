@@ -58,13 +58,14 @@
        <li>
        </li>
    </ul>
-   解説：{{i.tweet}} <a class="btn btn-danger" href="{% url 'waganeko:delete' explanation_post_id=i.id book_id=book.id%}">削除</a>
+   解説：{{i.tweet}} <br><a class="btn btn-danger" href="{% url 'waganeko:delete' explanation_post_id=i.id book_id=book.id%}">削除</a>
    <a class="btn btn-success" href="{% url 'waganeko:like' explanation_post_id=i.id book_id=book.id %}">なるほど～:{{ i.iine_nums }}</a>
    <a class="btn btn-warning" href="{% url 'waganeko:dislike' explanation_post_id=i.id book_id=book.id %}">異議あり:{{ i.igiari_nums }}</a>
    </div>
 {% endfor %}
+{% else %}
+<h3>解説がありません。</h3>
 {% endif %}
-{{ book.id }}
 <form action="{% url 'waganeko:post_form' book_id=book.id %}" method="POST" name="new_post">
   {% csrf_token %}
   <input type=submit class="btn btn-dark" value=投稿する>

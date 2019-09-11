@@ -88,44 +88,34 @@ def detail_view(request, book_id):
     except:
         page = 1
     # explanation = get_object_or_404(Explanation, )
-    explanations = Explanation.objects.filter(post_for_book__id=book_id)
+    explanations = Explanation.objects.filter(post_for_book__id=book_id).order_by('total_nums').reverse()
+    # explanations = Explanation.objects.filter(post_for_book__id=book_id)
     print('------------')
     print(explanations)
     print(type(explanations))
-    # ーーーーーー以下過去のモノーーーーーー
-    # explanations = Explanation.objects.values_list('id', flat=True)
-    # explanation_posts_list = Explanation.objects.values_list('tweet', flat=True)
-    # explanations = zip(id_list, explanation_posts_list)
-    # explanations = list(explanations)
-    #
-    # f = {
-    # 'explanations': explanations
-    # }
-    # return render(request, 'waganeko/explanation.html', f)
-
-    # self.form_view(request, book_id)
-
-
-    # try:
-    #     log = ScoreLog.objects.get(profile_id=request.user.profile.id, booook_id=book_id)
-    #     current_score = log.score
-    # except:
-    #     current_score = -1
-
-    # return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'current_score':current_score })
     return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'explanations':explanations})
-    # return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'form':form})
 
 def detail_view2(request, book_id, explanation_id):
     book = get_object_or_404(Book, id=book_id)
     book.view_nums += 1
     book.save()
+    # print('---------------------------------')
+    # # ii_nums = Explanation.objects.values_list('iine_nums', flat=True)
+    # # igi_nums = Explanation.objects.values_list('igiari_nums', flat=True)
+    # # total = ii_nums + igi_nums
+    # #
+    # print('00000000000000')
+    # print(str(explanation.iine_nums))
+    # total = explanation.iine_nums + explanation.igiari_nums
+    # print(total)
+    # print(type(total))
+    # print('00000000000')
     try:
         page = int(request.GET.get('from_page'))
     except:
         page = 1
-    # explanation = get_object_or_404(Explanation, )
-    explanations = Explanation.objects.filter(post_for_book__id=book_id).order_by('posted_time')
+
+    explanations = Explanation.objects.filter(post_for_book__id=book_id).order_by('total_nums').reverse()
     print('------------')
     return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'explanations':explanations})
 
@@ -133,9 +123,7 @@ def detail_view2(request, book_id, explanation_id):
 def form_view(request, book_id):
     form = NewExplanationForm()
     print(form)
-    # book_id = request.GET.get('new_post')
     print(book_id)
-    # return form
     return render(request, 'waganeko/explanation_new_post.html', {'form':form, 'book_id':book_id})
 
 @login_required
@@ -187,6 +175,7 @@ def like(request, explanation_post_id, book_id):
         liking = Like.objects.get(explanation__id=explanation_post_id, user=request.user.profile)
         liking.delete()
         explanation.iine_nums -= 1
+        explanation.total_nums -=1
         explanation.save()
         messages.warning(request, 'なるほど～を取り消しました')
         return redirect('waganeko:book_detail2', book_id, explanation_post_id)
@@ -194,6 +183,8 @@ def like(request, explanation_post_id, book_id):
     print(explanation.iine_nums)
     print(type(explanation.iine_nums))
     explanation.iine_nums += 1
+    explanation.total_nums += 1
+    print('total:' + str(explanation.total_nums))
     explanation.save()
     like = Like()
     like.user = request.user.profile
@@ -212,11 +203,14 @@ def dislike(request, explanation_post_id, book_id):
         disliking = Dislike.objects.get(explanation__id=explanation_post_id, user=request.user.profile)
         disliking.delete()
         explanation.igiari_nums -= 1
+        explanation.total_nums -=1
         explanation.save()
         messages.warning(request, '異議ありを取り消しました')
         return redirect('waganeko:book_detail2', book_id, explanation_post_id)
     # like
     explanation.igiari_nums += 1
+    explanation.total_nums += 1
+    print('total:' + str(explanation.total_nums))
     explanation.save()
     dislike = Dislike()
     dislike.user = request.user.profile
