@@ -94,8 +94,8 @@ def detail_view(request, book_id):
     explanations = Explanation.objects.filter(post_for_book__id=book_id).order_by('total_nums').reverse()
     # explanations = Explanation.objects.filter(post_for_book__id=book_id)
     print('------------')
-    print(explanations)
-    print(type(explanations))
+    # print(explanations)
+    # print(type(explanations))
     return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'explanations':explanations})
 
 def detail_view2(request, book_id, explanation_id):
