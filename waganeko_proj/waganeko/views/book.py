@@ -13,7 +13,7 @@ from waganeko.models import Book, ScoreLog, Explanation
 import random
 
 form_invalid_message = '不正な入力が送信されました'
-submit_successful_message = 'ツイートされました。！'
+submit_successful_message = '投稿されました。！'
 message_rate_created = '評価が登録されました！'
 message_rate_updated = '評価が更新されました！'
 
@@ -87,6 +87,22 @@ def detail_view(request, book_id):
         page = int(request.GET.get('from_page'))
     except:
         page = 1
+    # explanation = get_object_or_404(Explanation, )
+    explanations = Explanation.objects.filter(post_for_book__id=book_id)
+    print('------------')
+    print(explanations)
+    print(type(explanations))
+    # ーーーーーー以下過去のモノーーーーーー
+    # explanations = Explanation.objects.values_list('id', flat=True)
+    # explanation_posts_list = Explanation.objects.values_list('tweet', flat=True)
+    # explanations = zip(id_list, explanation_posts_list)
+    # explanations = list(explanations)
+    #
+    # f = {
+    # 'explanations': explanations
+    # }
+    # return render(request, 'waganeko/explanation.html', f)
+
     # self.form_view(request, book_id)
 
 
@@ -97,15 +113,19 @@ def detail_view(request, book_id):
     #     current_score = -1
 
     # return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'current_score':current_score })
-    return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page})
+    return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'explanations':explanations})
     # return render(request, 'waganeko/book_detail.html', {'book': book, 'page': page, 'form':form})
 
-def form_view(request):
+def form_view(request, book_id):
     form = NewExplanationForm()
+    print(form)
+    # book_id = request.GET.get('new_post')
+    print(book_id)
     # return form
-    return render(request, 'waganeko/explanation_new_post.html', {'form':form})
+    return render(request, 'waganeko/explanation_new_post.html', {'form':form, 'book_id':book_id})
 
-def new_explanation_post(request):
+
+def new_explanation_post(request, book_id):
     form = NewExplanationForm(request.POST)
     print('aaaaaaaaaaaaa')
     if not form.is_valid():
@@ -113,7 +133,7 @@ def new_explanation_post(request):
         print("form invalid")
         print("============================================")
         messages.error(request, form_invalid_message)
-        return redirect('waganeko:post_form')
+        return redirect('waganeko:book_detail')
 
     print("============================================")
     print("form valid")
@@ -132,35 +152,24 @@ def new_explanation_post(request):
     new_post.id = explanation_id
     print(new_post.id) #check
     new_post.post_user = request.user.profile
+    new_post.post_for_book = Book.objects.get(id=book_id)
     new_post.tweet = request.POST.get('tweet')
     new_post.save()
     print("----------")
     print("new post was saved")
     print("--------------------")
     messages.success(request, submit_successful_message)
-    return redirect('waganeko:explanation_posts')
-
-# ーーーーーー以下過去のモノーーーーーー
-def explanation_posts(request):
-    id_list = Explanation.objects.values_list('id', flat=True)
-    explanation_posts_list = Explanation.objects.values_list('tweet', flat=True)
-    explanations = zip(id_list, explanation_posts_list)
-    explanations = list(explanations)
-
-    f = {
-        'explanations': explanations
-    }
-    return render(request, 'waganeko/explanation.html', f)
+    return redirect('waganeko:book_detail', book_id = book_id)
 
 
-def delete(request, explanation_post_id):
+
+def delete(request, explanation_post_id, book_id):
     Explanation.objects.filter(id=explanation_post_id).delete()
-    return redirect('waganeko:explanation_posts')
+    return redirect('waganeko:book_detail', book_id = book_id)
 
 # def tweet_update(request, explanation_post_id):
 #     var = request.POST
 #     sort_str = var.get('sort')
-#
 #     new_explanation = NewExplanationForm(request.POST or None)
 #     print(explanation_post_id)
 #     print('-------------------------------------')
