@@ -47,6 +47,12 @@
       </tr>
     </tbody>
 </table>
+{% if book.text %}
+<details class="bg-light border-bottom">
+<summary><h4>本文</h4></summary>
+{{ book.text }}
+</details>
+{% endif %}
 <div class="container bg-light">
 <h3>解説</h3>
 {% if explanations %}
@@ -64,7 +70,7 @@
    </div>
 {% endfor %}
 {% else %}
-<h3>解説がありません。</h3>
+<h5>解説がありません。</h5>
 {% endif %}
 <form action="{% url 'waganeko:post_form' book_id=book.id %}" method="POST" name="new_post">
   {% csrf_token %}

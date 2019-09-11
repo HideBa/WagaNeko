@@ -18,8 +18,10 @@ message_rate_created = '評価が登録されました！'
 message_rate_updated = '評価が更新されました！'
 
 def list_search_view(request):
+    print('hhhhhhhh')
     var = request.GET
     search_str = var.get('search')
+    print('ooooooo')
     # if Book.objects.filter(Q(book_name__icontains=search_str) | Q(book_name_hiragana__icontains=search_str) | Q(author.first_name__icontains=search_str)).exists():
     #     searched_book_list = Book.objects.filter(Q(book_name__icontains=search_str) | Q(book_name_hiragana__icontains=search_str) | Q(author.first_name__icontains=search_str))
     #     message = ""
@@ -40,6 +42,7 @@ def list_search_view(request):
         page = 1
 
     books = paginator.get_page(page)
+    print('----')
     return render(request, 'waganeko/book_list.html', {'books': books, 'page': page, 'last_page': paginator.num_pages, 'message': message})
 
 def list_view(request):
