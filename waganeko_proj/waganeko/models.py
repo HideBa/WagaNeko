@@ -125,7 +125,7 @@ class Explanation(models.Model):
     #E00001から
     post_user = models.ForeignKey(Profile, verbose_name='投稿者', on_delete=models.CASCADE, null=True)
     # post_text = models.CharField('投稿内容', max_length=150)
-    tweet = models.CharField('ツイート', max_length=100, default="")
+    tweet = models.TextField('ツイート', default="")
     iine_nums = models.PositiveIntegerField('いいね数', default=0)
     igiari_nums = models.PositiveIntegerField('異議あり数', default=0)
     category = models.PositiveIntegerField('カテゴリ', choices=book_category_list, null=True)

@@ -175,7 +175,7 @@ def like(request, explanation_post_id, book_id):
         liking = Like.objects.get(explanation__id=explanation_post_id, user=request.user.profile)
         liking.delete()
         explanation.iine_nums -= 1
-        explanation.total_nums -=1
+        explanation.total_nums = explanation.iine_nums + explanation.igiari_nums
         explanation.save()
         messages.warning(request, 'なるほど～を取り消しました')
         return redirect('waganeko:book_detail2', book_id, explanation_post_id)
@@ -183,7 +183,7 @@ def like(request, explanation_post_id, book_id):
     print(explanation.iine_nums)
     print(type(explanation.iine_nums))
     explanation.iine_nums += 1
-    explanation.total_nums += 1
+    explanation.total_nums = explanation.iine_nums + explanation.igiari_nums
     print('total:' + str(explanation.total_nums))
     explanation.save()
     like = Like()
@@ -203,13 +203,13 @@ def dislike(request, explanation_post_id, book_id):
         disliking = Dislike.objects.get(explanation__id=explanation_post_id, user=request.user.profile)
         disliking.delete()
         explanation.igiari_nums -= 1
-        explanation.total_nums -=1
+        explanation.total_nums = explanation.iine_nums + explanation.igiari_nums
         explanation.save()
         messages.warning(request, '異議ありを取り消しました')
         return redirect('waganeko:book_detail2', book_id, explanation_post_id)
     # like
     explanation.igiari_nums += 1
-    explanation.total_nums += 1
+    explanation.total_nums = explanation.iine_nums + explanation.igiari_nums
     print('total:' + str(explanation.total_nums))
     explanation.save()
     dislike = Dislike()

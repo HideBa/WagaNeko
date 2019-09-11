@@ -51,7 +51,7 @@
 <h3>解説</h3>
 {% if explanations %}
 {% for i in explanations %}
-  <div class="container border border-warning rounded">
+  <div class="container border border-dark rounded">
    <ul>
      <li>UserName：{{i.post_user.user.username}}</li>
      <li> {{i.post_user.belong | default:"" }}</li>
