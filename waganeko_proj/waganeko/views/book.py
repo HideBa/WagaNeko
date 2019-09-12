@@ -19,8 +19,8 @@ message_rate_updated = '評価が更新されました！'
 
 def list_search_view(request):
     print('hhhhhhhh')
-    var = request.GET
-    search_str = var.get('search')
+    bar = request.GET
+    search_str = bar.get('search')
     print('ooooooo')
     # if Book.objects.filter(Q(book_name__icontains=search_str) | Q(book_name_hiragana__icontains=search_str) | Q(author.first_name__icontains=search_str)).exists():
     #     searched_book_list = Book.objects.filter(Q(book_name__icontains=search_str) | Q(book_name_hiragana__icontains=search_str) | Q(author.first_name__icontains=search_str))
@@ -47,6 +47,7 @@ def list_search_view(request):
     print('hhhhhhhh')
 
 def list_view(request):
+    print('00000000000')
     var = request.POST
     sort_str = var.get('sort')
 
