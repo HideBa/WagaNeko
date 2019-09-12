@@ -49,7 +49,9 @@
 
     </tbody>
 </table>
+{% if book.book_img %}
 <img src="{{ book.book_img.url }}" class="img-fluid">
+{% endif %}
 {% if book.text %}
 <details class="bg-light border-bottom">
 <summary><h4>本文</h4></summary>
@@ -62,7 +64,10 @@
 {% for i in explanations %}
   <div class="container border border-dark rounded">
    <ul class="list-unstyled">
-     <li>UserName：{{i.post_user.user.username}}</li>
+     <li>{% if i.post_user.icon_img %}
+     <img src="{{ i.post_user.icon_img.url }}" class="img-fluid" width="100" height="100">
+     {% endif %}
+     UserName：{{i.post_user.user.username}}</li>
      <li> 所属：{{i.post_user.belong | default:"" }}</li>
        <li>
        </li>

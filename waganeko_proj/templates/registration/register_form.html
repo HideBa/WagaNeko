@@ -11,7 +11,7 @@
 {% else %}
 <div class="container pt-5">
 <h1>会員登録</h1>
-<form method="post" action="{% url 'register' %}">
+<form method="post" action="{% url 'register' %}" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form layout='horizontal' %}
     <div class="form-group row">

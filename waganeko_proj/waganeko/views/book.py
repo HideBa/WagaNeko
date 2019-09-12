@@ -44,6 +44,7 @@ def list_search_view(request):
     books = paginator.get_page(page)
     print('----')
     return render(request, 'waganeko/book_list.html', {'books': books, 'page': page, 'last_page': paginator.num_pages, 'message': message})
+    print('hhhhhhhh')
 
 def list_view(request):
     var = request.POST

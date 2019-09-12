@@ -1,5 +1,5 @@
 from django.urls import path
-from waganeko.views import hello, mypage, book, author
+from waganeko.views import hello, mypage, book, author, mypage
 # ルーティングの設定
 
 app_name = 'waganeko'

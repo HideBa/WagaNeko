@@ -12,9 +12,10 @@ class RegisterForm(UserCreationForm):
     # household_num = forms.IntegerField(required=True)
     gender = forms.ChoiceField(choices=GENDER_LIST, required=True)
     belong = forms.CharField()
+    icon_img = forms.ImageField()
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2','age','gender','belong']
+        fields = ['username', 'email', 'password1', 'password2','age','gender','belong','icon_img']
         labels = {
             'username': 'ユーザー名',
             'email':'Email Adress',
@@ -23,6 +24,7 @@ class RegisterForm(UserCreationForm):
             'age': '年齢',
             'gender': '性別',
             'belong': '所属',
+            'icon_img':'アイコン画像',
         }
 
     def save(self, commit=True):
@@ -42,9 +44,10 @@ class RegisterForm(UserCreationForm):
         gender = self.cleaned_data['gender']
         email = self.cleaned_data['email']
         belong = self.cleaned_data['belong']
+        icon_img = self.cleaned_data['icon_img']
         # household_num = self.cleaned_data['household_num']
 
-        profile = Profile(id=prof_id,age=age,gender=gender, user_id=user.id, email = email, belong=belong)
+        profile = Profile(id=prof_id,age=age,gender=gender, user_id=user.id, email = email, belong=belong, icon_img=icon_img)
         profile.save()
 
         return user
