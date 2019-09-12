@@ -21,10 +21,16 @@ from waganeko.views.register import register_view, done_view
 from . import settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from waganeko.models import Book
 # from .index import index
 
 def index(request):
-    return render(request,'index.html')
+    book_list = Book.objects.all().order_by('view_nums').reverse()[:6]
+    # book_list = list(Book.objects.all().order_by('view_nums').reverse()[:6])
+    print(book_list)
+    print(type(book_list))
+    print(book_list[0])
+    return render(request,'index.html', {'book_list':book_list})
 
 def test(request):
     return render(request, 'test.html')

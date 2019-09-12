@@ -49,19 +49,23 @@
           <div class="row">
 
             <!-- Portfolio Item 1 -->
+            {% for book in book_list %}
             <div class="col-md-6 col-lg-4">
-              <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
+              <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal{{ forloop.counter }}">
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
                     <i class="fas fa-plus fa-3x"></i>
                   </div>
                 </div>
-                <img class="img-fluid" src="{% static 'waganeko/img/portfolio/cabin.png' %}" alt="">
+                {{ forloop.counter }}
+                {% if book.book_img %}
+                <img class="img-fluid" src="{{ book.book_img.url }}" alt="">
+                {% endif %}
               </div>
             </div>
-
+            {% endfor %}
             <!-- Portfolio Item 2 -->
-            <div class="col-md-6 col-lg-4">
+            <!-- <div class="col-md-6 col-lg-4">
               <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal2">
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
@@ -70,10 +74,10 @@
                 </div>
                 <img class="img-fluid" src="{% static 'waganeko/img/portfolio/cake.png' %}" alt="">
               </div>
-            </div>
+            </div> -->
 
             <!-- Portfolio Item 3 -->
-            <div class="col-md-6 col-lg-4">
+            <!-- <div class="col-md-6 col-lg-4">
               <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal3">
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
@@ -82,10 +86,10 @@
                 </div>
                 <img class="img-fluid" src="{% static 'waganeko/img/portfolio/circus.png' %}" alt="">
               </div>
-            </div>
+            </div> -->
 
             <!-- Portfolio Item 4 -->
-            <div class="col-md-6 col-lg-4">
+            <!-- <div class="col-md-6 col-lg-4">
               <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal4">
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
@@ -94,10 +98,10 @@
                 </div>
                 <img class="img-fluid" src="{% static 'waganeko/img/portfolio/game.png' %}" alt="">
               </div>
-            </div>
+            </div> -->
 
             <!-- Portfolio Item 5 -->
-            <div class="col-md-6 col-lg-4">
+            <!-- <div class="col-md-6 col-lg-4">
               <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal5">
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
@@ -106,10 +110,10 @@
                 </div>
                 <img class="img-fluid" src="{% static 'waganeko/img/portfolio/safe.png' %}" alt="">
               </div>
-            </div>
+            </div> -->
 
             <!-- Portfolio Item 6 -->
-            <div class="col-md-6 col-lg-4">
+            <!-- <div class="col-md-6 col-lg-4">
               <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal6">
                 <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                   <div class="portfolio-item-caption-content text-center text-white">
@@ -120,7 +124,7 @@
               </div>
             </div>
 
-          </div>
+          </div> -->
           <!-- /.row -->
           <div class="text-center mt-4">
                 <a class="btn btn-xl btn-outline-dark" href="waganeko/book">
@@ -231,7 +235,8 @@
 <!-- Portfolio Modals -->
 
   <!-- Portfolio Modal 1 -->
-  <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+  {% for book in book_list %}
+  <div class="portfolio-modal modal fade" id="portfolioModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -244,7 +249,7 @@
                 <div class="row justify-content-center">
                   <div class="col-lg-8">
                     <!-- Portfolio Modal - Title -->
-                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">吾輩は猫である</h2>
+                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">{{ book.book_name }}</h2>
                     <!-- Icon Divider -->
                     <div class="divider-custom">
                       <div class="divider-custom-line"></div>
@@ -254,48 +259,16 @@
                       <div class="divider-custom-line"></div>
                     </div>
                     <!-- Portfolio Modal - Image -->
-                    <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/cabin.png' %}" alt="">
+                    {% if book.book_img %}
+                    <img class="img-fluid rounded mb-5" src="{{ book.book_img.url }}" alt="">
+                    {% endif %}
                     <!-- Portfolio Modal - Text -->
-                    <p class="mb-5">ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ.</p>
-                    <button class="btn btn-primary" href="#" data-dismiss="modal">
-                      <i class="fas fa-times fa-fw"></i>
-                      Close Window
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                    <p class="mb-5">{% if book.text|length > 80 %}
+                    {{ book.text|slice:80 }}...
+                  {% else %}
+                  {{ book.text }}
+                {% endif %}</p>
 
-      <!-- Portfolio Modal 2 -->
-      <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-          <div class="modal-content">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">
-                <i class="fas fa-times"></i>
-              </span>
-            </button>
-            <div class="modal-body text-center">
-              <div class="container">
-                <div class="row justify-content-center">
-                  <div class="col-lg-8">
-                    <!-- Portfolio Modal - Title -->
-                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">銀河鉄道の夜</h2>
-                    <!-- Icon Divider -->
-                    <div class="divider-custom">
-                      <div class="divider-custom-line"></div>
-                      <div class="divider-custom-icon">
-                        <i class="fas fa-paw"></i>
-                      </div>
-                      <div class="divider-custom-line"></div>
-                    </div>
-                    <!-- Portfolio Modal - Image -->
-                    <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/cake.png' %}" alt="">
-                    <!-- Portfolio Modal - Text -->
-                    <p class="mb-5">エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、</p>
                     <button class="btn btn-primary" href="#" data-dismiss="modal">
                       <i class="fas fa-times fa-fw"></i>
                       Close Window
@@ -307,9 +280,51 @@
           </div>
         </div>
       </div>
+{% endfor %}
+      <!-- Portfolio Modal 2 -->
+      <!-- <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="fas fa-times"></i>
+              </span>
+            </button>
+            <div class="modal-body text-center">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-8"> -->
+
+                    <!-- <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">銀河鉄道の夜</h2> -->
+                    <!-- <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon">
+                        <i class="fas fa-paw"></i>
+                      </div>
+                      <div class="divider-custom-line"></div>
+                    </div> -->
+
+                    <!-- Portfolio Modal - Image -->
+
+                    <!-- <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/cake.png' %}" alt=""> -->
+
+                    <!-- Portfolio Modal - Text -->
+
+                    <!-- <p class="mb-5">エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、</p>
+                    <button class="btn btn-primary" href="#" data-dismiss="modal">
+                      <i class="fas fa-times fa-fw"></i>
+                      Close Window
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
 
       <!-- Portfolio Modal 3 -->
-      <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-labelledby="portfolioModal3Label" aria-hidden="true">
+      <!-- <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-labelledby="portfolioModal3Label" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -320,21 +335,21 @@
             <div class="modal-body text-center">
               <div class="container">
                 <div class="row justify-content-center">
-                  <div class="col-lg-8">
+                  <div class="col-lg-8"> -->
                     <!-- Portfolio Modal - Title -->
-                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">羅生門</h2>
+                    <!-- <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">羅生門</h2> -->
                     <!-- Icon Divider -->
-                    <div class="divider-custom">
+                    <!-- <div class="divider-custom">
                       <div class="divider-custom-line"></div>
                       <div class="divider-custom-icon">
                         <i class="fas fa-paw"></i>
                       </div>
                       <div class="divider-custom-line"></div>
-                    </div>
+                    </div> -->
                     <!-- Portfolio Modal - Image -->
-                    <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/circus.png' %}" alt="">
+                    <!-- <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/circus.png' %}" alt=""> -->
                     <!-- Portfolio Modal - Text -->
-                    <p class="mb-5">エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、.</p>
+                    <!-- <p class="mb-5">エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、.</p>
                     <button class="btn btn-primary" href="#" data-dismiss="modal">
                       <i class="fas fa-times fa-fw"></i>
                       Close Window
@@ -345,10 +360,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Portfolio Modal 4 -->
-      <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-labelledby="portfolioModal4Label" aria-hidden="true">
+      <!-- <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-labelledby="portfolioModal4Label" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -359,21 +374,21 @@
             <div class="modal-body text-center">
               <div class="container">
                 <div class="row justify-content-center">
-                  <div class="col-lg-8">
+                  <div class="col-lg-8"> -->
                     <!-- Portfolio Modal - Title -->
-                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">人間失格</h2>
+                    <!-- <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">人間失格</h2> -->
                     <!-- Icon Divider -->
-                    <div class="divider-custom">
+                    <!-- <div class="divider-custom">
                       <div class="divider-custom-line"></div>
                       <div class="divider-custom-icon">
                         <i class="fas fa-paw"></i>
                       </div>
-                      <div class="divider-custom-line"></div>
-                    </div>
+                      <div class="divider-custom-line"></div> -->
+                    <!-- </div> -->
                     <!-- Portfolio Modal - Image -->
-                    <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/game.png' %}" alt="">
+                    <!-- <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/game.png' %}" alt=""> -->
                     <!-- Portfolio Modal - Text -->
-                    <p class="mb-5">エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、.</p>
+                    <!-- <p class="mb-5">エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、.</p>
                     <button class="btn btn-primary" href="#" data-dismiss="modal">
                       <i class="fas fa-times fa-fw"></i>
                       Close Window
@@ -384,10 +399,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Portfolio Modal 5 -->
-      <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-labelledby="portfolioModal5Label" aria-hidden="true">
+      <!-- <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-labelledby="portfolioModal5Label" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -398,21 +413,21 @@
             <div class="modal-body text-center">
               <div class="container">
                 <div class="row justify-content-center">
-                  <div class="col-lg-8">
+                  <div class="col-lg-8"> -->
                     <!-- Portfolio Modal - Title -->
-                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">三国志</h2>
+                    <!-- <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">三国志</h2> -->
                     <!-- Icon Divider -->
-                    <div class="divider-custom">
+                    <!-- <div class="divider-custom">
                       <div class="divider-custom-line"></div>
                       <div class="divider-custom-icon">
                         <i class="fas fa-paw"></i>
                       </div>
                       <div class="divider-custom-line"></div>
-                    </div>
+                    </div> -->
                     <!-- Portfolio Modal - Image -->
-                    <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/safe.png' %}" alt="">
+                    <!-- <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/safe.png' %}" alt=""> -->
                     <!-- Portfolio Modal - Text -->
-                    <p class="mb-5">エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、.</p>
+                    <!-- <p class="mb-5">エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、エラー直れ、.</p>
                     <button class="btn btn-primary" href="#" data-dismiss="modal">
                       <i class="fas fa-times fa-fw"></i>
                       Close Window
@@ -423,10 +438,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Portfolio Modal 6 -->
-      <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-labelledby="portfolioModal6Label" aria-hidden="true">
+      <!-- <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-labelledby="portfolioModal6Label" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -437,21 +452,21 @@
             <div class="modal-body text-center">
               <div class="container">
                 <div class="row justify-content-center">
-                  <div class="col-lg-8">
+                  <div class="col-lg-8"> -->
                     <!-- Portfolio Modal - Title -->
-                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Submarine</h2>
+                    <!-- <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Submarine</h2> -->
                     <!-- Icon Divider -->
-                    <div class="divider-custom">
+                    <!-- <div class="divider-custom">
                       <div class="divider-custom-line"></div>
                       <div class="divider-custom-icon">
                         <i class="fas fa-paw"></i>
                       </div>
                       <div class="divider-custom-line"></div>
-                    </div>
+                    </div> -->
                     <!-- Portfolio Modal - Image -->
-                    <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/submarine.png' %}" alt="">
+                    <!-- <img class="img-fluid rounded mb-5" src="{% static 'waganeko/img/portfolio/submarine.png' %}" alt=""> -->
                     <!-- Portfolio Modal - Text -->
-                    <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+                    <!-- <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
                     <button class="btn btn-primary" href="#" data-dismiss="modal">
                       <i class="fas fa-times fa-fw"></i>
                       Close Window
@@ -462,6 +477,6 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
 {% endblock content %}
