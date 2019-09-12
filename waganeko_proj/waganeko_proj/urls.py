@@ -18,6 +18,9 @@ from django.urls import path, include
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from waganeko.views.register import register_view, done_view
+from . import settings
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # from .index import index
 
 def index(request):
@@ -35,3 +38,6 @@ urlpatterns = [
     path('accounts/register/', register_view, name='register'),
     path('accounts/register/done', done_view, name='register_done'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

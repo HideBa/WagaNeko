@@ -49,6 +49,7 @@
 
     </tbody>
 </table>
+<img src="{{ book.book_img.url }}" class="img-fluid">
 {% if book.text %}
 <details class="bg-light border-bottom">
 <summary><h4>本文</h4></summary>
@@ -79,7 +80,7 @@
   <input type=submit class="btn btn-dark" value=投稿する>
 </form>
 </div>
-<a href="{% url 'waganeko:book_list' %}?page={{ page }}">一覧へ戻る</a>
+<a href="{% url 'waganeko:book_list' %}?page={{ page }}" class="btn btn-light">一覧へ戻る</a>
 {% endblock %}
 
 
