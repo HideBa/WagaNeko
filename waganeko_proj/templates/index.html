@@ -92,12 +92,18 @@
 
           <!-- About Section Content -->
           <div class="row">
-            <div class="col-lg-4 ml-auto">
-              <p class="lead">Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional SASS stylesheets for easy customization.</p>
+            <div class="col-auto">
+              <ul class="lead font-weight-bold">
+                <li>読書は自己の頭によらず、他人の頭をもって思索することである。（ショウペンハウエル）
+                </li><br>
+                <li>書物を読むということは、他人が辛苦してなしとげたことを、容易に自分に取り入れて自己改善をする最良の方法である。（ソクラテス)
+                </li><br>
+                <li>・読書の時間を大切にしなさい。一冊の本との出会いがあなたの生き方を変えてくれることだってあります。（ジョセフ・マーフィー）</li>
+              </ul>
             </div>
-            <div class="col-lg-4 mr-auto">
+            <!-- <div class="col-lg-4 mr-auto">
               <p class="lead">You can create your own custom avatar for the masthead, change the icon in the dividers, and add your email address to the contact form to make it fully functional!</p>
-            </div>
+            </div> -->
           </div>
 
           <!-- About Section Button -->
@@ -199,7 +205,7 @@
                     </div>
                     <!-- Portfolio Modal - Image -->
                     {% if book.book_img %}
-                    <img class="img-fluid rounded mb-5" src="{{ book.book_img.url }}" alt="">
+                    <a href="{% url 'waganeko:book_detail' book_id=book.id %}"><img class="img-fluid rounded mb-5" src="{{ book.book_img.url }}" alt=""></a>
                     {% endif %}
                     <!-- Portfolio Modal - Text -->
                     <p class="mb-5">{% if book.text|length > 80 %}
@@ -220,5 +226,5 @@
         </div>
       </div>
 {% endfor %}
-    
+
 {% endblock content %}

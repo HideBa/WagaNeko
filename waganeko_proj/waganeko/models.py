@@ -100,7 +100,7 @@ class Book(models.Model):
     view_nums = models.PositiveIntegerField('閲覧数', default=0)
 
     def __str__(self):
-        return self.book_name + ' ' + self.author.id
+        return self.id + ' ' + self.book_name + ' 著者ID:' + self.author.id
 
 class Summary(models.Model):
     class Meta:
@@ -131,7 +131,7 @@ class Explanation(models.Model):
     category = models.PositiveIntegerField('カテゴリ', choices=book_category_list, null=True)
     posted_time = models.DateTimeField(auto_now_add=True, null=True)
     total_nums = models.PositiveIntegerField('合計数', default=0)
-    post_for_book = models.ForeignKey(Book, verbose_name='投稿先の本', on_delete=models.CASCADE, null=True)
+    post_for_book = models.ForeignKey(Book, verbose_name='投稿先の本', related_name="explanation",  on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.post_user.id + ' ' + self.tweet + self.id
