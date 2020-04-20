@@ -1,5 +1,5 @@
 runtime: python37
-entrypoint: gunicorn -b :$PORT wanageko_proj.wsgi.application
+entrypoint: gunicorn -b :$PORT wanageko_proj.wsgi:application
 
 handlers:
 - url: /static
