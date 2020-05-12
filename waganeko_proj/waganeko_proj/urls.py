@@ -26,10 +26,6 @@ from waganeko.models import Book
 
 def index(request):
     book_list = Book.objects.all().order_by('view_nums').reverse()[:6]
-    # book_list = list(Book.objects.all().order_by('view_nums').reverse()[:6])
-    print(book_list)
-    print(type(book_list))
-    print(book_list[0])
     return render(request,'index.html', {'book_list':book_list})
 
 def test(request):
