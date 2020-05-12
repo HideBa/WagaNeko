@@ -1,0 +1,25 @@
+{% extends "subbase.html" %}
+{% load mathfilters %}
+{% load bootstrap4 %}
+
+{% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+  <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% block title %}Expplanation{% endblock title %}
+
+{% block content %}
+    <h4 class="mt-4 border-bottom">解説を投稿</h4>
+    <p>本のID：{{ book_id }}</p>
+<form action="{% url 'waganeko:new_explanation_post' book_id=book_id %}" method="POST" name="new_post">
+      {% csrf_token %}
+{% bootstrap_form form layout='horizontal' %}
+    <!-- <input type="textarea" name="new_post" maxlength="140"> -->
+        <button type="submit" value="投稿" class="btn btn-dark">投稿する</button>
+
+</form>
+{% endblock content %}

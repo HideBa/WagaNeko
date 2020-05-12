@@ -1,0 +1,68 @@
+{% extends "subbase.html" %}
+{% load mathfilters %}
+
+{% block title %}本の一覧{% endblock title %}
+
+{% block content %}
+<h4 class="mt-4 border-bottom">本の一覧</h4>
+<h3>{{ message }}</h3>
+
+
+<form action="{% url 'waganeko:book_list' %}" method="post">
+        {% csrf_token %}
+        <!-- <div class="btn-group btn-primary  row"> -->
+            <input type="submit" class="btn btn-primary" name="sort" value="閲覧数順">
+    <input type="submit" class="btn btn-primary" name="sort" value="ID順">
+</form>
+<form action="{% url 'waganeko:book_search_list' %}"  method="get">
+  <input type="text" class="" name="search" placeholder="検索ワードを入力">
+  <input type="submit" class="btn btn-success" value="検索">
+  </form>
+
+<table class="table table-striped table-bordered table-dark">
+    <thead>
+        <tr>
+            <th scope="col">pic</th>
+            <th scope="col">本ID</th>
+            <th scope="col">本の名前</th>
+            <th scope="col">著者</th>
+            <th scope="col">初版出版年</th>
+            <th scope="col">カテゴリ</th>
+            <th scope="col">ページ数</th>
+            <th scope="col">評価</th>
+            <th scope="col">閲覧数</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+          <th scope="row"><!---変更--->
+            {% if book.book_img %}
+            <img src="{{ book.book_img.url }}" class="img-fluid" width="100" height="100">
+            {% endif %}
+          </th>
+            <td>
+                <a href="{% url 'waganeko:book_detail' book_id=book.id %}">
+                    {{ book.id }}
+                </a>
+            </td>
+            <td>{{ book.book_name}}</td>
+            <td>{{ book.author.last_name }}{{ book.author.first_name }}</td>
+            <td>{{ book.first_published_year | default:"" }}</td>
+            <td>{{ book.category | default:"" }}</td>
+            <td>{{ book.page_nums | default:"" }}</td>
+            <td>{{ book.rate | default:""}}</td>
+            <td>{{ book.view_nums }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if page > 1 %}
+<a href="{% url 'waganeko:book_list' %}?page={{ page|sub:1 }}">前のページ</a>
+{% endif %}
+{% if page < last_page %}
+<a href="{% url 'waganeko:book_list' %}?page={{ page|add:1 }}">次のページ</a>
+{% endif %}
+{% endblock %}

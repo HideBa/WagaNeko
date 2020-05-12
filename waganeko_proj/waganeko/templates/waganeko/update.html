@@ -1,0 +1,15 @@
+{% extends "subbase.html" %}
+{% load mathfilters %}
+{% load bootstrap4 %}
+
+{% block title %}投稿{% endblock title %}
+
+    {% block content %}
+    <h1>ツイート編集</h1>
+<form action="{% url 'waganeko:update' %}" method="post" name="update_post">
+{% csrf_token %}
+  <table>
+    {{ new_explanation }}
+    <tr><td colspan='2'><input type="submit" value="Submit"></td></tr>
+  </table>
+    {% endblock content %}
