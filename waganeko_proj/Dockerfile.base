@@ -2,7 +2,7 @@ FROM python:3.7
 
 ENV APP_PATH /opt/apps
 
-COPY requirement.base.txt $APP_PATH/
-RUN pip install --no-cache-dir -r $APP_PATH/requirement.base.txt
+COPY requirements.base.txt $APP_PATH/
+RUN pip install --no-cache-dir -r $APP_PATH/requirements.base.txt
 
 WORKDIR $APP_PATH
