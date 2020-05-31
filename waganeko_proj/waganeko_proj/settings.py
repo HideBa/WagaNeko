@@ -66,9 +66,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-             'builtins':[
+            'builtins': [
                 'bootstrap4.templatetags.bootstrap4'
-                ],
+            ],
         },
     },
 ]
@@ -84,8 +84,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'waganeko_db',
         'USER': 'waganeko',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PASSWORD': 'password',
+        'PORT': '5432'
     }
 }
 
@@ -130,9 +131,9 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_ROOT = '/opt/static'
 
-LOGIN_URL='/accounts/login'
-LOGIN_REDIRECT_URL='/'
-LOGOUT_REDIRECT_URL='/'
+LOGIN_URL = '/accounts/login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 STATICFILES_DIRS = (
     [
