@@ -3,6 +3,8 @@ services:
   django:
     restart: always
     build: ./waganeko_proj
+    environment: 
+      DATABASE_URL: postgres://waganeko:password@postgres/waganeko_db
     expose:
       - "3031"
     depends_on:
@@ -34,4 +36,6 @@ services:
 
 volumes:
   dbdata:
+    driver: local
   staticdata:
+    driver: local
